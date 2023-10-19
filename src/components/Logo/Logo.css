@@ -1,5 +1,9 @@
 .tilt {
-  background: forestgreen;
-  height: 150px;
-  width: 150px;
+  background: transparent;
+  height: 120px;
+  width: 120px;
+}
+img {
+  padding-top: 10px;
+  padding-left: 10px;
 }
