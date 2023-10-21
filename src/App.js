@@ -4,8 +4,44 @@ import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import ParticlesBg from "particles-bg";
 import Rank from "./components/Rank/Rank";
-//import Clarifai from "clairifai";
+//import Clarifai from "clarifai";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+
+// const app = new Clarifai.App({
+//   apiKey: "b329f9a7a7d241de85f6ade7c19838d1",
+// });
+const returnClarifaiReqeustOptions = (imageUrl) => {
+  const PAT = "85d390e01fb047d0afdb277ad9408824";
+  const USER_ID = "regan035";
+  const APP_ID = "my-first-application-dxlven";
+  const MODEL_ID = "face-detection";
+  const IMAGE_URL = imageUrl;
+  const raw = JSON.stringify({
+    user_app_id: {
+      user_id: USER_ID,
+      app_id: APP_ID,
+    },
+    inputs: [
+      {
+        data: {
+          image: {
+            url: IMAGE_URL,
+          },
+        },
+      },
+    ],
+  });
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: "Key " + PAT,
+    },
+    body: raw,
+  };
+
+  return requestOptions;
+};
 
 class App extends Component {
   constructor() {
@@ -20,8 +56,16 @@ class App extends Component {
   };
 
   onButtonSubmit = () => {
-    console.log("click");
     this.setState({ imageUrl: this.state.input });
+    // the way setStae works has to be input
+    //app.models.predict("face-detection", this.state.input)
+    fetch(
+      "https://api.clarifai.com/v2/models/" + "face-detection" + "/outputs",
+      returnClarifaiReqeustOptions(this.state.input)
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   render() {
@@ -31,6 +75,7 @@ class App extends Component {
         <Navigation />
         <Logo />
         <Rank />
+        {/* pass input change as prop */}
         <ImageLinkForm
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onButtonSubmit}
