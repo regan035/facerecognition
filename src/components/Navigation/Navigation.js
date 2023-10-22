@@ -7,7 +7,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
       <nav>
         <p
           className="f3 link dim black underline pa3 pointer"
-          onClick={() => onRouteChange("signin")}
+          onClick={() => onRouteChange("signout")}
         >
           Sign Out
         </p>
